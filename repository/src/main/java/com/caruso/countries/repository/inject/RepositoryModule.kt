@@ -1,9 +1,12 @@
 package com.caruso.countries.repository.inject
 
 import com.caruso.countries.repository.CacheDirProvider
+import com.caruso.countries.repository.CountryRepository
+import com.caruso.countries.repository.CountryRepositoryImpl
 import com.caruso.countries.repository.remote.RemoteDataSource
 import com.caruso.countries.repository.remote.adapter.CallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +23,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
+
+    @Binds
+    @Singleton
+    internal abstract fun bindCountryRepository(impl: CountryRepositoryImpl): CountryRepository
+
     companion object {
         // 10 MB
         private const val HTTP_RESPONSE_DISK_CACHE_MAX_SIZE = 10L * 1024L * 1024L
