@@ -3,5 +3,5 @@ package com.caruso.countries.repository
 import kotlinx.coroutines.flow.Flow
 
 interface CountryRepository {
-    fun observeCountries(): Flow<List<Country>>
+    fun observeCountries(): Flow<ResultOf<List<Country>>>
 }
