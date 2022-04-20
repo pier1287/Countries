@@ -36,7 +36,7 @@ class CountryRepositoryImplTest {
     fun `should emit a list with one Country`() = runBlocking {
         coEvery { remote.getAllCountries() } returns arrayOf(countryDto).success()
         val actual = sut.observeCountries().first().getOrNull()
-        val expected = listOf(Country("IT", "ITALY"))
+        val expected = listOf(Country("ITA", "ITALY"))
         assertEquals(expected, actual)
     }
 
