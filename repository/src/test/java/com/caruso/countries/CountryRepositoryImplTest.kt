@@ -16,7 +16,7 @@ import org.junit.Test
 class CountryRepositoryImplTest {
 
     private val remote: RemoteDataSource = mockk {
-        coEvery { getAllCountries() } returns listOf<CountryDto>().success()
+        coEvery { getAllCountries() } returns arrayOf<CountryDto>().success()
     }
     private val sut = CountryRepositoryImpl(remote)
 
@@ -34,9 +34,9 @@ class CountryRepositoryImplTest {
 
     @Test
     fun `should emit a list with one Country`() = runBlocking {
-        coEvery { remote.getAllCountries() } returns listOf(countryDto).success()
+        coEvery { remote.getAllCountries() } returns arrayOf(countryDto).success()
         val actual = sut.observeCountries().first().getOrNull()
-        val expected = listOf(Country("ITA", "ITALY"))
+        val expected = listOf(Country("IT", "ITALY"))
         assertEquals(expected, actual)
     }
 
