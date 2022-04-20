@@ -1,7 +1,9 @@
 package com.caruso.countries.inject
 
 import android.content.Context
+import com.caruso.countries.BuildConfig
 import com.caruso.countries.repository.CacheDirProvider
+import com.caruso.countries.repository.RepositoryConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,7 +13,7 @@ import java.io.File
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule {
+object AppModule {
 
     @Provides
     fun provideCacheProvider(@ApplicationContext context: Context): CacheDirProvider =
@@ -19,4 +21,7 @@ class AppModule {
             override val cacheDir: File?
                 get() = context.cacheDir
         }
+
+    @Provides
+    fun provideRepositoryConfig(): RepositoryConfig = RepositoryConfig(BuildConfig.DEBUG)
 }

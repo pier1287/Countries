@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.20'
+    id 'kotlin-kapt'
 }
 
 java {
@@ -13,6 +14,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
 
     implementation "com.google.dagger:hilt-core:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     def okHttp = '4.9.3'
     implementation "com.squareup.okhttp3:okhttp:$okHttp"

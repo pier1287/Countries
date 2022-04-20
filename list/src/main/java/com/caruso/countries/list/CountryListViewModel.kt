@@ -2,6 +2,7 @@ package com.caruso.countries.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.caruso.countries.repository.Country
 import com.caruso.countries.repository.CountryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -19,3 +20,5 @@ class CountryListViewModel @Inject constructor(
         }
     }
 }
+
+data class CountryListState(val list: List<Country>)
