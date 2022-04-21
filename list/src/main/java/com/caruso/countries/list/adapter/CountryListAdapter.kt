@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.caruso.countries.list.databinding.CountryListItemBinding
 import com.caruso.countries.repository.Country
 
@@ -19,11 +20,15 @@ class CountryListAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.nameTextView.text = item.name
+        with(holder) {
+            nameTextView.text = item.name
+            flagImageView.load(item.flagImageUrl)
+        }
     }
 
     class ViewHolder(binding: CountryListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val nameTextView = binding.nameTextView
+        val flagImageView = binding.flagImageView
     }
 }
 

@@ -21,20 +21,20 @@ class CountryListViewModelTest {
     val coroutineRule = CoroutineRule()
 
     private val countries = listOf(
-        Country(id = "FRA", name = "FRANCE"),
-        Country(id = "ITA", name = "ITALY")
+        Country(id = "FRA", name = "FRANCE", flagImageUrl = "flagImageUrl"),
+        Country(id = "ITA", name = "ITALY", flagImageUrl = "flagImageUrl")
     )
 
     private val expectedCountries = listOf(
-        Country(id = "FRA", name = "FRANCE"),
-        Country(id = "ITA", name = "ITALY")
+        Country(id = "FRA", name = "FRANCE", flagImageUrl = "flagImageUrl"),
+        Country(id = "ITA", name = "ITALY", flagImageUrl = "flagImageUrl")
     )
 
     private val countryRepository: CountryRepository = mockk {
         every { observeCountries() } returns flow {
             emit(countries.success())
             delay(1)
-            emit((countries + Country("ESP", "SPAIN")).success())
+            emit((countries + Country("ESP", "SPAIN", "flagImageUrl")).success())
         }
     }
 
@@ -51,7 +51,7 @@ class CountryListViewModelTest {
     fun `should update the state on next emitted value`() = coroutineRule.runBlockingTest {
         val sut = CountryListViewModel(countryRepository)
         val expected = CountryListState(
-            expectedCountries + Country(id = "ESP", name = "SPAIN"),
+            expectedCountries + Country(id = "ESP", name = "SPAIN", "flagImageUrl"),
             false
         )
         sut.state.test {

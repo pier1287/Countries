@@ -1,3 +1,3 @@
 package com.caruso.countries.repository
 
-data class Country(val id: String, val name: String)
+data class Country(val id: String, val name: String, val flagImageUrl: String)
