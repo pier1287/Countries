@@ -39,7 +39,7 @@ class CountryListViewModelTest {
     }
 
     @Test
-    fun `should emit a state with two Countries`() = coroutineRule.runBlockingTest {
+    fun `should emit a state with Countries`() = coroutineRule.runBlockingTest {
         val sut = CountryListViewModel(countryRepository)
         val expected = CountryListState(expectedCountries)
         sut.state.test {
