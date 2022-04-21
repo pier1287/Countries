@@ -22,7 +22,7 @@ class CountryDetailViewModel @Inject constructor(
 
     private val args = CountryDetailFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
-    val state: StateFlow<CountryDetailState> = countryRepository.observeCountryDetail(args.name)
+    val state: StateFlow<CountryDetailState> = countryRepository.observeCountryDetail(args.id)
         .map(::mapToState)
         .stateIn(
             scope = viewModelScope,

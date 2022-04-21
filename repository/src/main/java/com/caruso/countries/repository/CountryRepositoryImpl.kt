@@ -15,8 +15,10 @@ internal class CountryRepositoryImpl @Inject constructor(
         emit(countryList)
     }
 
-    override fun observeCountryDetail(countryName: String): Flow<ResultOf<Country>> = flow {
-        val country = remote.getCountryDetailByName(countryName).map { it.toEntity() }
+    override fun observeCountryDetail(countryId: String): Flow<ResultOf<Country>> = flow {
+        val country = remote.getCountryDetailById(countryId)
+            .flatMap { it.firstOrNull()?.success() ?: NotFound.error() }
+            .map { it.toEntity() }
         emit(country)
     }
 }

@@ -59,8 +59,10 @@ class CountryRepositoryImplTest {
 
     @Test
     fun `should emit country detail`() = runBlocking {
-        coEvery { remote.getCountryDetailByName("ITALY") } returns itaCountryDto.success()
-        val actual = sut.observeCountryDetail("ITALY").first().getOrNull()
+        coEvery { remote.getCountryDetailById("ITA") } returns
+                arrayOf(itaCountryDto, itaCountryDto).success()
+
+        val actual = sut.observeCountryDetail("ITA").first().getOrNull()
         val expected = Country("ITA", "ITALY", "italy.svg")
         assertEquals(expected, actual)
     }

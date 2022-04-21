@@ -2,6 +2,7 @@ package com.caruso.countries.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -44,6 +45,9 @@ class CountryDetailFragment : Fragment(R.layout.country_detail_fragment) {
 
     private fun CountryDetailFragmentBinding.showContent(country: Country) {
         flagImageView.load(country.flagImageUrl)
+        val appCompatActivity = requireActivity() as? AppCompatActivity
+        appCompatActivity?.supportActionBar?.title = country.name
+        handleLoader(false)
     }
 
     private fun CountryDetailFragmentBinding.handleLoader(isLoading: Boolean) {

@@ -7,10 +7,11 @@
     <fragment
         android:id="@+id/countryDetailFragment"
         android:name="com.caruso.countries.detail.CountryDetailFragment"
-        android:label="{name}">
-        <deepLink app:uri="com.caruso.countries://countries/{name}" />
+        android:label=""
+        >
+        <deepLink app:uri="com.caruso.countries://countries/{id}" />
         <argument
-            android:name="name"
+            android:name="id"
             app:argType="string" />
     </fragment>
 </navigation>
