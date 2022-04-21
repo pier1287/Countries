@@ -9,26 +9,32 @@ import coil.load
 import com.caruso.countries.list.databinding.CountryListItemBinding
 import com.caruso.countries.repository.Country
 
-class CountryListAdapter :
+class CountryListAdapter(private val onItemClick: (Country) -> Unit) :
     ListAdapter<Country, CountryListAdapter.ViewHolder>(CountriesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = CountryListItemBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         with(holder) {
+            this.item = item
             nameTextView.text = item.name
             flagImageView.load(item.flagImageUrl)
         }
     }
 
-    class ViewHolder(binding: CountryListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(binding: CountryListItemBinding, onItemClick: (Country) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+        lateinit var item: Country
         val nameTextView = binding.nameTextView
         val flagImageView = binding.flagImageView
+
+        init {
+            binding.root.setOnClickListener { onItemClick(item) }
+        }
     }
 }
 

@@ -14,4 +14,8 @@ internal class CountryRepositoryImpl @Inject constructor(
             .map { it.sortedBy(Country::name) }
         emit(countryList)
     }
+
+    override fun observeCountry(countryId: String): Flow<ResultOf<Country>> = flow {
+
+    }
 }

@@ -3,11 +3,14 @@ package com.caruso.countries.list
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
 import com.caruso.countries.core.extensions.castAdapterTo
 import com.caruso.countries.core.view.viewBinding
 import com.caruso.countries.core.widget.gone
@@ -33,7 +36,12 @@ class CountryListFragment : Fragment(R.layout.country_list_fragment) {
     }
 
     private fun CountryListFragmentBinding.initCountriesRecyclerView() {
-        countriesRecyclerView.adapter = CountryListAdapter()
+        countriesRecyclerView.adapter = CountryListAdapter{ country ->
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("com.caruso.countries://countries/${country.name}".toUri())
+                .build()
+            findNavController().navigate(request)
+        }
     }
 
     private suspend fun CountryListFragmentBinding.observeViewModelState() {
