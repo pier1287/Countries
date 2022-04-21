@@ -9,6 +9,7 @@ import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import org.junit.Rule
 import org.junit.Test
@@ -24,19 +25,34 @@ class CountryListViewModelTest {
         Country(id = "ITA", name = "ITALY")
     )
 
+    private val expectedCountries = listOf(
+        Country(id = "FRA", name = "FRANCE"),
+        Country(id = "ITA", name = "ITALY")
+    )
+
     private val countryRepository: CountryRepository = mockk {
-        every { observeCountries() } returns flow { emit(countries.success()) }
+        every { observeCountries() } returns flow {
+            emit(countries.success())
+            delay(1)
+            emit((countries + Country("ESP", "SPAIN")).success())
+        }
     }
 
     @Test
     fun `should emit a state with two Countries`() = coroutineRule.runBlockingTest {
         val sut = CountryListViewModel(countryRepository)
-        val expectedCountries = listOf(
-            Country(id = "FRA", name = "FRANCE"),
-            Country(id = "ITA", name = "ITALY")
-        )
         val expected = CountryListState(expectedCountries)
         sut.state.test {
+            assertEquals(expected, awaitItem())
+        }
+    }
+
+    @Test
+    fun `should update the state on next emitted value`() = coroutineRule.runBlockingTest {
+        val sut = CountryListViewModel(countryRepository)
+        val expected = CountryListState(expectedCountries + Country(id = "ESP", name = "SPAIN"))
+        sut.state.test {
+            awaitItem()
             assertEquals(expected, awaitItem())
         }
     }
