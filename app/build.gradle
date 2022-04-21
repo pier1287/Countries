@@ -31,10 +31,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
 
+    implementation project(":list")
     implementation project(":repository")
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -44,6 +48,10 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "androidx.hilt:hilt-navigation-fragment:1.0.0"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    def coil = '1.4.0'
+    implementation "io.coil-kt:coil:$coil"
+    implementation "io.coil-kt:coil-svg:$coil"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

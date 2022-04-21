@@ -16,14 +16,20 @@ import org.junit.Test
 class CountryRepositoryImplTest {
 
     private val remote: RemoteDataSource = mockk {
-        coEvery { getAllCountries() } returns listOf<CountryDto>().success()
+        coEvery { getAllCountries() } returns arrayOf<CountryDto>().success()
     }
     private val sut = CountryRepositoryImpl(remote)
 
-    private val countryDto = CountryDto(
+    private val itaCountryDto = CountryDto(
         cca3 = "ITA",
         name = NameDto(commonName = "ITALY"),
-        flags = FlagsDto("png", "svg")
+        flags = FlagsDto("italy.png", "italy.svg")
+    )
+
+    private val fraCountryDto = CountryDto(
+        cca3 = "FRA",
+        name = NameDto(commonName = "FRANCE"),
+        flags = FlagsDto("france.png", "france.svg")
     )
 
     @Test
@@ -33,10 +39,13 @@ class CountryRepositoryImplTest {
     }
 
     @Test
-    fun `should emit a list with one Country`() = runBlocking {
-        coEvery { remote.getAllCountries() } returns listOf(countryDto).success()
+    fun `should emit a list of Countries sorted by name`() = runBlocking {
+        coEvery { remote.getAllCountries() } returns arrayOf(itaCountryDto, fraCountryDto).success()
         val actual = sut.observeCountries().first().getOrNull()
-        val expected = listOf(Country("ITA", "ITALY"))
+        val expected = listOf(
+            Country("FRA", "FRANCE", "france.svg"),
+            Country("ITA", "ITALY", "italy.svg")
+        )
         assertEquals(expected, actual)
     }
 

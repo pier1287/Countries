@@ -9,7 +9,9 @@ internal class CountryRepositoryImpl @Inject constructor(
     private val remote: RemoteDataSource
 ) : CountryRepository {
     override fun observeCountries(): Flow<ResultOf<List<Country>>> = flow {
-        val countryList = remote.getAllCountries().map { it.toEntities() }
+        val countryList = remote.getAllCountries()
+            .map { it.toEntities() }
+            .map { it.sortedBy(Country::name) }
         emit(countryList)
     }
 }
