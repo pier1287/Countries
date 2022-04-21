@@ -56,4 +56,12 @@ class CountryRepositoryImplTest {
         val expected = NetworkUnavailable.error()
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should emit country detail`() = runBlocking {
+        coEvery { remote.getCountryDetailByName("ITALY") } returns itaCountryDto.success()
+        val actual = sut.observeCountryDetail("ITALY").first().getOrNull()
+        val expected = Country("ITA", "ITALY", "italy.svg")
+        assertEquals(expected, actual)
+    }
 }

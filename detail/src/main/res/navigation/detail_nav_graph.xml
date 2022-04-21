@@ -9,5 +9,8 @@
         android:name="com.caruso.countries.detail.CountryDetailFragment"
         android:label="{name}">
         <deepLink app:uri="com.caruso.countries://countries/{name}" />
+        <argument
+            android:name="name"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -36,7 +36,7 @@ class CountryListFragment : Fragment(R.layout.country_list_fragment) {
     }
 
     private fun CountryListFragmentBinding.initCountriesRecyclerView() {
-        countriesRecyclerView.adapter = CountryListAdapter{ country ->
+        countriesRecyclerView.adapter = CountryListAdapter { country ->
             val request = NavDeepLinkRequest.Builder
                 .fromUri("com.caruso.countries://countries/${country.name}".toUri())
                 .build()
@@ -45,8 +45,7 @@ class CountryListFragment : Fragment(R.layout.country_list_fragment) {
     }
 
     private suspend fun CountryListFragmentBinding.observeViewModelState() {
-        viewModel.state
-            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+        viewModel.state.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .collect {
                 showList(it.countries)
                 handleLoader(it.isLoading)
