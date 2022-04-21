@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,5 +23,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         val navGraph = navController.navInflater.inflate(R.navigation.main_nav_graph)
         navController.graph = navGraph
+        initTopAppBar()
+    }
+
+    private fun initTopAppBar() {
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(this, navController, appBarConfiguration)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

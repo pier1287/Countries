@@ -48,6 +48,7 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "androidx.hilt:hilt-navigation-fragment:1.0.0"
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     def coil = '1.4.0'
