@@ -22,9 +22,12 @@ class CountryListViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = CountryListState(emptyList())
+            initialValue = CountryListState(isLoading = true)
         )
 
 }
 
-data class CountryListState(val countries: List<Country>)
+data class CountryListState(
+    val countries: List<Country> = emptyList(),
+    val isLoading: Boolean = false
+)

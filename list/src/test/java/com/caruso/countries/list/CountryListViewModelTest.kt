@@ -41,7 +41,7 @@ class CountryListViewModelTest {
     @Test
     fun `should emit a state with Countries`() = coroutineRule.runBlockingTest {
         val sut = CountryListViewModel(countryRepository)
-        val expected = CountryListState(expectedCountries)
+        val expected = CountryListState(expectedCountries, false)
         sut.state.test {
             assertEquals(expected, awaitItem())
         }
@@ -50,9 +50,21 @@ class CountryListViewModelTest {
     @Test
     fun `should update the state on next emitted value`() = coroutineRule.runBlockingTest {
         val sut = CountryListViewModel(countryRepository)
-        val expected = CountryListState(expectedCountries + Country(id = "ESP", name = "SPAIN"))
+        val expected = CountryListState(
+            expectedCountries + Country(id = "ESP", name = "SPAIN"),
+            false
+        )
         sut.state.test {
             awaitItem()
+            assertEquals(expected, awaitItem())
+        }
+    }
+
+    @Test
+    fun `should emit show loading as initial state`() = coroutineRule.runBlockingTest {
+        val sut = CountryListViewModel(mockk { every { observeCountries() } returns flow { } })
+        val expected = CountryListState(countries = emptyList(), isLoading = true)
+        sut.state.test {
             assertEquals(expected, awaitItem())
         }
     }
