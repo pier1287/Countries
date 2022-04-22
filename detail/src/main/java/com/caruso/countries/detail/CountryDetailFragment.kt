@@ -44,9 +44,13 @@ class CountryDetailFragment : Fragment(R.layout.country_detail_fragment) {
     }
 
     private fun CountryDetailFragmentBinding.showContent(country: Country) {
-        flagImageView.load(country.flagImageUrl)
         val appCompatActivity = requireActivity() as? AppCompatActivity
         appCompatActivity?.supportActionBar?.title = country.name
+
+        flagImageView.load(country.flagImageUrl)
+
+        continentTextView.text = country.continent
+        capitalTextView.text = country.capital
         handleLoader(false)
     }
 

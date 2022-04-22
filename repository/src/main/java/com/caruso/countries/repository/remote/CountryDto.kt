@@ -8,6 +8,8 @@ internal data class CountryDto(
     @SerialName("cca3") val cca3: String,
     @SerialName("name") val name: NameDto,
     @SerialName("flags") val flags: FlagsDto,
+    @SerialName("capital") val capitals: List<String> = emptyList(),
+    @SerialName("continents") val continents: List<String> = emptyList(),
 )
 
 @Serializable
