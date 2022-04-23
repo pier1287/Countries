@@ -3,10 +3,7 @@ package com.caruso.countries.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.caruso.countries.repository.Country
-import com.caruso.countries.repository.CountryRepository
-import com.caruso.countries.repository.ResultOf
-import com.caruso.countries.repository.fold
+import com.caruso.countries.repository.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +29,7 @@ class CountryDetailViewModel @Inject constructor(
 
     private fun mapToState(result: ResultOf<Country>): CountryDetailState =
         result.fold(
-            error = { CountryDetailState.Error("") },
+            error = { CountryDetailState.Error(it) },
             success = { country -> CountryDetailState.Success(country) }
         )
 
@@ -40,6 +37,6 @@ class CountryDetailViewModel @Inject constructor(
 
 sealed interface CountryDetailState {
     data class Success(val country: Country) : CountryDetailState
-    data class Error(val message: String) : CountryDetailState
+    data class Error(val type: ErrorType) : CountryDetailState
     object Loading : CountryDetailState
 }

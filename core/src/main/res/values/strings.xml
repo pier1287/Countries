@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="generic_error">Oops something went wrong</string>
+    <string name="not_found_error">The requested resource was not found</string>
+</resources>
