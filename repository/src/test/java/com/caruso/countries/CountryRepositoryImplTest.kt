@@ -1,10 +1,16 @@
 package com.caruso.countries
 
-import com.caruso.countries.repository.*
+import com.caruso.countries.repository.Country
+import com.caruso.countries.repository.CountryRepositoryImpl
+import com.caruso.countries.repository.NetworkUnavailable
+import com.caruso.countries.repository.NotFound
+import com.caruso.countries.repository.error
+import com.caruso.countries.repository.getOrNull
 import com.caruso.countries.repository.remote.CountryDto
 import com.caruso.countries.repository.remote.FlagsDto
 import com.caruso.countries.repository.remote.NameDto
 import com.caruso.countries.repository.remote.RemoteDataSource
+import com.caruso.countries.repository.success
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -56,7 +62,7 @@ class CountryRepositoryImplTest {
             capitals = listOf("ROME"),
         )
         coEvery { remote.getCountryDetailById("ITA") } returns
-                arrayOf(itaCountryDetailDto, itaCountryDetailDto).success()
+            arrayOf(itaCountryDetailDto, itaCountryDetailDto).success()
 
         val actual = sut.observeCountryDetail("ITA").first().getOrNull()
         val expected = Country(
@@ -80,7 +86,7 @@ class CountryRepositoryImplTest {
     @Test
     fun `should emit NotFound error if country is not found`() = runBlocking {
         coEvery { remote.getCountryDetailById(any()) } returns
-                arrayOf<CountryDto>().success()
+            arrayOf<CountryDto>().success()
 
         val actual = sut.observeCountryDetail("ITA").first()
         val expected = NotFound.error()

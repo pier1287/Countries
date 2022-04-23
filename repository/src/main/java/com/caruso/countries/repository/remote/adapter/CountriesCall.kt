@@ -1,7 +1,16 @@
 package com.caruso.countries.repository.remote.adapter
 
-import com.caruso.countries.repository.*
+import com.caruso.countries.repository.BadRequest
+import com.caruso.countries.repository.ErrorType
+import com.caruso.countries.repository.Forbidden
+import com.caruso.countries.repository.GenericError
+import com.caruso.countries.repository.NetworkUnavailable
+import com.caruso.countries.repository.NotFound
+import com.caruso.countries.repository.ResultOf
+import com.caruso.countries.repository.Unauthorized
+import com.caruso.countries.repository.error
 import com.caruso.countries.repository.remote.ErrorDto
+import com.caruso.countries.repository.success
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.Request

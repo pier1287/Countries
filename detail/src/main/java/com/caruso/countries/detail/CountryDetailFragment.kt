@@ -25,7 +25,7 @@ class CountryDetailFragment : Fragment(R.layout.country_detail_fragment) {
 
     private val viewModel: CountryDetailViewModel by viewModels()
     private val binding: CountryDetailFragmentBinding
-            by viewBinding(CountryDetailFragmentBinding::bind)
+        by viewBinding(CountryDetailFragmentBinding::bind)
 
     @Inject
     lateinit var errorHandler: ErrorHandler
