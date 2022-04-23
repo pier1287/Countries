@@ -27,7 +27,8 @@ class CountryListAdapter(private val onItemClick: (Country) -> Unit) :
         }
     }
 
-    class ViewHolder(binding: CountryListItemBinding, onItemClick: (Country) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(binding: CountryListItemBinding, onItemClick: (Country) -> Unit) :
+        RecyclerView.ViewHolder(binding.root) {
         lateinit var item: Country
         val nameTextView = binding.nameTextView
         val flagImageView = binding.flagImageView
