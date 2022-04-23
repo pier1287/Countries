@@ -50,14 +50,6 @@ class CountryRepositoryImplTest {
     }
 
     @Test
-    fun `should emit NetworkUnavailable on Network error`() = runBlocking {
-        coEvery { remote.getAllCountries() } returns NetworkUnavailable.error()
-        val actual = sut.observeCountries().first()
-        val expected = NetworkUnavailable.error()
-        assertEquals(expected, actual)
-    }
-
-    @Test
     fun `should emit country detail`() = runBlocking {
         val itaCountryDetailDto = itaCountryDto.copy(
             continents = listOf("EUROPE"),
@@ -74,6 +66,24 @@ class CountryRepositoryImplTest {
             continent = "EUROPE",
             capital = "ROME",
         )
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should emit NetworkUnavailable on Network error`() = runBlocking {
+        coEvery { remote.getAllCountries() } returns NetworkUnavailable.error()
+        val actual = sut.observeCountries().first()
+        val expected = NetworkUnavailable.error()
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should emit NotFound error if country is not found`() = runBlocking {
+        coEvery { remote.getCountryDetailById(any()) } returns
+                arrayOf<CountryDto>().success()
+
+        val actual = sut.observeCountryDetail("ITA").first()
+        val expected = NotFound.error()
         assertEquals(expected, actual)
     }
 }
