@@ -2,9 +2,7 @@ package com.caruso.countries.list
 
 import app.cash.turbine.test
 import com.caruso.countries.core_test.CoroutineRule
-import com.caruso.countries.repository.Country
-import com.caruso.countries.repository.CountryRepository
-import com.caruso.countries.repository.success
+import com.caruso.countries.repository.*
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -41,7 +39,7 @@ class CountryListViewModelTest {
     @Test
     fun `should emit a state with Countries`() = coroutineRule.runBlockingTest {
         val sut = CountryListViewModel(countryRepository)
-        val expected = CountryListState(expectedCountries, false)
+        val expected = CountryListState.Success(expectedCountries)
         sut.state.test {
             assertEquals(expected, awaitItem())
         }
@@ -50,9 +48,8 @@ class CountryListViewModelTest {
     @Test
     fun `should update the state on next emitted value`() = coroutineRule.runBlockingTest {
         val sut = CountryListViewModel(countryRepository)
-        val expected = CountryListState(
-            expectedCountries + Country(id = "ESP", name = "SPAIN", "flagImageUrl"),
-            false
+        val expected = CountryListState.Success(
+            expectedCountries + Country(id = "ESP", name = "SPAIN", "flagImageUrl")
         )
         sut.state.test {
             awaitItem()
@@ -62,8 +59,26 @@ class CountryListViewModelTest {
 
     @Test
     fun `should emit show loading as initial state`() = coroutineRule.runBlockingTest {
-        val sut = CountryListViewModel(mockk { every { observeCountries() } returns flow { } })
-        val expected = CountryListState(countries = emptyList(), isLoading = true)
+        val countryRepository: CountryRepository = mockk {
+            every { observeCountries() } returns flow { }
+        }
+        val sut = CountryListViewModel(countryRepository)
+        val expected = CountryListState.Loading
+        sut.state.test {
+            assertEquals(expected, awaitItem())
+        }
+    }
+
+    @Test
+    fun `should emit error state if an error occurs`() = coroutineRule.runBlockingTest {
+        val countryRepository: CountryRepository = mockk {
+            every { observeCountries() } returns flow {
+                emit(NetworkUnavailable.error())
+            }
+        }
+        val sut = CountryListViewModel(countryRepository)
+
+        val expected = CountryListState.Error(NetworkUnavailable)
         sut.state.test {
             assertEquals(expected, awaitItem())
         }
