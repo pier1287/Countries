@@ -12,7 +12,7 @@ android {
         minSdk 21
         targetSdk 31
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.caruso.countries.core_test.CustomTestRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -43,6 +43,7 @@ dependencies {
     implementation "androidx.core:core-ktx:1.7.0"
     implementation "androidx.appcompat:appcompat:1.4.1"
     implementation "com.google.android.material:material:1.5.0"
+    implementation 'androidx.navigation:navigation-testing:2.4.2'
 
     def lifecycle_version = "2.4.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
@@ -55,7 +56,10 @@ dependencies {
     implementation "io.coil-kt:coil:$coil"
     implementation "io.coil-kt:coil-svg:$coil"
 
+
     testImplementation project(":core-test")
+    androidTestImplementation project(":core-test")
+    
     testImplementation "junit:junit:4.13.2"
     testImplementation "io.mockk:mockk:1.12.3"
     testImplementation 'app.cash.turbine:turbine:0.7.0'
@@ -63,7 +67,6 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:1.1.3"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
 
-    testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
-    kaptTest "com.google.dagger:hilt-compiler:$hilt_version"
-    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 }
