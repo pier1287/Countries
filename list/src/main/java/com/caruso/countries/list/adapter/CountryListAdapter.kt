@@ -44,5 +44,4 @@ class CountriesDiffUtil : DiffUtil.ItemCallback<Country>() {
 
     override fun areContentsTheSame(oldItem: Country, newItem: Country): Boolean =
         oldItem.name == newItem.name
-
 }

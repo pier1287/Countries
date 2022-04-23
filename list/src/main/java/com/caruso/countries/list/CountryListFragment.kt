@@ -76,4 +76,3 @@ class CountryListFragment : Fragment(R.layout.country_list_fragment) {
         handleLoader(false)
     }
 }
-

@@ -32,7 +32,6 @@ class CountryDetailViewModel @Inject constructor(
             error = { CountryDetailState.Error(it) },
             success = { country -> CountryDetailState.Success(country) }
         )
-
 }
 
 sealed interface CountryDetailState {

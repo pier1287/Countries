@@ -26,4 +26,3 @@ class CoroutineRule(
             block(this)
         }
 }
-

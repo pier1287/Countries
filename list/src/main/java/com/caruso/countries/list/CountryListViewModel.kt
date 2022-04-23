@@ -23,7 +23,6 @@ class CountryListViewModel @Inject constructor(
             initialValue = CountryListState.Loading
         )
 
-
     private fun mapToState(result: ResultOf<List<Country>>): CountryListState =
         result.fold(
             error = { CountryListState.Error(it) },
