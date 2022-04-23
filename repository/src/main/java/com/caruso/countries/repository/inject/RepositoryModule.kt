@@ -4,7 +4,7 @@ import com.caruso.countries.repository.CacheDirProvider
 import com.caruso.countries.repository.CountryRepository
 import com.caruso.countries.repository.CountryRepositoryImpl
 import com.caruso.countries.repository.RepositoryConfig
-import com.caruso.countries.repository.remote.RemoteDataSource
+import com.caruso.countries.repository.remote.CountryRemoteDataSource
 import com.caruso.countries.repository.remote.adapter.CallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Binds
@@ -85,7 +85,7 @@ abstract class RepositoryModule {
 
         @Provides
         @Singleton
-        internal fun provideRemoteDataSource(retrofit: Retrofit): RemoteDataSource =
-            retrofit.create(RemoteDataSource::class.java)
+        internal fun provideRemoteDataSource(retrofit: Retrofit): CountryRemoteDataSource =
+            retrofit.create(CountryRemoteDataSource::class.java)
     }
 }

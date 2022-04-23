@@ -9,7 +9,7 @@ import com.caruso.countries.repository.getOrNull
 import com.caruso.countries.repository.remote.CountryDto
 import com.caruso.countries.repository.remote.FlagsDto
 import com.caruso.countries.repository.remote.NameDto
-import com.caruso.countries.repository.remote.RemoteDataSource
+import com.caruso.countries.repository.remote.CountryRemoteDataSource
 import com.caruso.countries.repository.success
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -21,7 +21,7 @@ import org.junit.Test
 
 class CountryRepositoryImplTest {
 
-    private val remote: RemoteDataSource = mockk {
+    private val remote: CountryRemoteDataSource = mockk {
         coEvery { getAllCountries() } returns arrayOf<CountryDto>().success()
     }
     private val sut = CountryRepositoryImpl(remote)

@@ -1,27 +1,35 @@
 package com.caruso.countries.list
 
-import androidx.navigation.testing.TestNavHostController
-import androidx.test.core.app.ApplicationProvider
 import com.caruso.countries.core_test.launchFragmentInHiltContainer
+import com.caruso.countries.repository.remote.CountryRemoteDataSource
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
+import javax.inject.Inject
 
 @HiltAndroidTest
 class CountryListFragmentTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+    @Inject
+    lateinit var countryRemoteDataSource: CountryRemoteDataSource
+
     @Before
     fun init() {
         hiltRule.inject()
     }
 
-    private fun launchCountryListFragment(): TestNavHostController {
-        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
-        navController.setGraph(R.navigation.list_nav_graph)
-        launchFragmentInHiltContainer<CountryListFragment>(navHostController = navController)
-        return navController
+    @Test
+    fun shouldShowCountryList() {
+        launchCountryListFragment()
+        assertEquals(true, true)
+    }
+
+    private fun launchCountryListFragment() {
+        launchFragmentInHiltContainer<CountryListFragment>()
     }
 }

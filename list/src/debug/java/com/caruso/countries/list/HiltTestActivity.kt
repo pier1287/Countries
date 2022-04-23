@@ -1,4 +1,4 @@
-package com.caruso.countries.core_test
+package com.caruso.countries.list
 
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
