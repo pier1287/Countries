@@ -12,6 +12,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaType
@@ -61,6 +62,7 @@ abstract class RepositoryModule {
             return builder.build()
         }
 
+        @OptIn(ExperimentalSerializationApi::class)
         @Provides
         @Singleton
         internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {

@@ -9,6 +9,5 @@
         android:id="@+id/countryListFragment"
         android:name="com.caruso.countries.list.CountryListFragment"
         android:label="@string/countries"
-        tools:layout="@layout/country_list_fragment"
-        />
+        tools:layout="@layout/country_list_fragment" />
 </navigation>
