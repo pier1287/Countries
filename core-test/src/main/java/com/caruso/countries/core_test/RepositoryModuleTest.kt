@@ -1,12 +1,12 @@
-package com.caruso.countries.list
+package com.caruso.countries.core_test
 
 import com.caruso.countries.repository.CountryRepository
 import com.caruso.countries.repository.CountryRepositoryImpl
 import com.caruso.countries.repository.inject.RepositoryModule
 import com.caruso.countries.repository.remote.CountryDto
+import com.caruso.countries.repository.remote.CountryRemoteDataSource
 import com.caruso.countries.repository.remote.FlagsDto
 import com.caruso.countries.repository.remote.NameDto
-import com.caruso.countries.repository.remote.CountryRemoteDataSource
 import com.caruso.countries.repository.success
 import dagger.Binds
 import dagger.Module
