@@ -1,12 +1,12 @@
 package com.caruso.countries.repository
 
-import com.caruso.countries.repository.remote.RemoteDataSource
+import com.caruso.countries.repository.remote.CountryRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-internal class CountryRepositoryImpl @Inject constructor(
-    private val remote: RemoteDataSource
+class CountryRepositoryImpl @Inject constructor(
+    private val remote: CountryRemoteDataSource
 ) : CountryRepository {
     override fun observeCountries(): Flow<ResultOf<List<Country>>> = flow {
         val countryList = remote.getAllCountries()

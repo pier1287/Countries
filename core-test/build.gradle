@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -10,7 +12,7 @@ android {
         minSdk 21
         targetSdk 31
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.caruso.countries.core_test.AndroidTestRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -31,6 +33,18 @@ android {
 }
 
 dependencies {
+    implementation project(":repository")
+
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
     implementation 'junit:junit:4.13.2'
+    implementation 'androidx.test:runner:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation 'androidx.test:core-ktx:1.4.0'
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    implementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "io.mockk:mockk-android:1.12.3"
+    implementation "androidx.test.espresso:espresso-core:3.4.0"
 }

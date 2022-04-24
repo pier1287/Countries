@@ -4,7 +4,7 @@ import com.caruso.countries.repository.ResultOf
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-internal interface RemoteDataSource {
+interface CountryRemoteDataSource {
 
     @GET("v3.1/all?fields=name,cca3,flags")
     suspend fun getAllCountries(): ResultOf<Array<CountryDto>>
