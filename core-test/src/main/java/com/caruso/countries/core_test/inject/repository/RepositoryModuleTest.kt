@@ -2,6 +2,8 @@ package com.caruso.countries.core_test.inject.repository
 
 import com.caruso.countries.repository.CountryRepository
 import com.caruso.countries.repository.CountryRepositoryImpl
+import com.caruso.countries.repository.NotFound
+import com.caruso.countries.repository.error
 import com.caruso.countries.repository.inject.RepositoryModule
 import com.caruso.countries.repository.remote.CountryDto
 import com.caruso.countries.repository.remote.CountryRemoteDataSource
@@ -38,10 +40,17 @@ abstract class RepositoryModuleTest {
             flags = FlagsDto("fra.png", "fra.svg")
         )
 
+        private val itaDetailDto = itaDto.copy(
+            continents = listOf("EUROPE"),
+            capitals = listOf("ROME")
+        )
+
         @Provides
         @Singleton
         fun provideRemoteDataSource(): CountryRemoteDataSource = mockk {
             coEvery { getAllCountries() } returns arrayOf(itaDto, fraDto).success()
+            coEvery { getCountryDetailById(any()) } returns NotFound.error()
+            coEvery { getCountryDetailById("ITA") } returns arrayOf(itaDetailDto).success()
         }
     }
 }
