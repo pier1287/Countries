@@ -3,9 +3,11 @@ package com.caruso.countries.detail
 import androidx.core.os.bundleOf
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.caruso.countries.core_test.launchFragmentInHiltContainer
+import com.caruso.countries.core_test.matcher.matchToolbarTitle
 import com.caruso.countries.repository.NetworkUnavailable
 import com.caruso.countries.repository.error
 import com.caruso.countries.repository.remote.CountryRemoteDataSource
@@ -34,6 +36,7 @@ class CountryDetailFragmentTest {
     @Test
     fun shouldShowCountryDetail() {
         launchCountryDetailFragment("ITA")
+        matchToolbarTitle("ITALY").check(matches(isDisplayed()))
         onView(withId(R.id.continentTextView)).check(matches(withText("EUROPE")))
         onView(withId(R.id.capitalTextView)).check(matches(withText("ROME")))
     }
