@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import com.caruso.countries.list.HiltTestActivity
 import dagger.hilt.internal.Preconditions
 
 inline fun <reified T : Fragment> launchFragmentInHiltContainer(

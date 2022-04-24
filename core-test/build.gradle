@@ -12,7 +12,7 @@ android {
         minSdk 21
         targetSdk 31
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.caruso.countries.core_test.AndroidTestRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -43,6 +43,6 @@ dependencies {
     implementation 'androidx.test:core-ktx:1.4.0'
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
-    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 }

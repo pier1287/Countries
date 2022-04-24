@@ -12,7 +12,7 @@ android {
         minSdk 21
         targetSdk 31
 
-        testInstrumentationRunner "com.caruso.countries.list.AndroidTestRunner"
+        testInstrumentationRunner "com.caruso.countries.core_test.AndroidTestRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
