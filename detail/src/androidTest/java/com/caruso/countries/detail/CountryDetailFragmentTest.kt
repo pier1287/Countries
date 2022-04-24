@@ -1,13 +1,11 @@
-package com.caruso.countries.list
+package com.caruso.countries.detail
 
+import androidx.core.os.bundleOf
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.caruso.countries.core_test.launchFragmentInHiltContainer
-import com.caruso.countries.core_test.matcher.hasItemAtPosition
 import com.caruso.countries.repository.NetworkUnavailable
 import com.caruso.countries.repository.error
 import com.caruso.countries.repository.remote.CountryRemoteDataSource
@@ -20,7 +18,7 @@ import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
-class CountryListFragmentTest {
+class CountryDetailFragmentTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -34,19 +32,29 @@ class CountryListFragmentTest {
     }
 
     @Test
-    fun shouldShowCountryList() {
-        launchCountryListFragment()
-        val firstItemMatcher = hasItemAtPosition(0, hasDescendant(withText("FRANCE")))
-        onView(firstItemMatcher).check(matches(isDisplayed()))
-
-        val secondItemMatcher = hasItemAtPosition(1, hasDescendant(withText("ITALY")))
-        onView(secondItemMatcher).check(matches(isDisplayed()))
+    fun shouldShowCountryDetail() {
+        launchCountryDetailFragment("ITA")
+        onView(withId(R.id.continentTextView)).check(matches(withText("EUROPE")))
+        onView(withId(R.id.capitalTextView)).check(matches(withText("ROME")))
     }
 
     @Test
-    fun shouldShowSnackBarErrorMessageOnNetworkError() {
-        coEvery { countryRemoteDataSource.getAllCountries() } returns NetworkUnavailable.error()
-        launchCountryListFragment()
+    fun shouldShowNotFoundError() {
+        launchCountryDetailFragment("AAA")
+
+        val snackBarTextId = com.google.android.material.R.id.snackbar_text
+        val genericErrorStringRes = com.caruso.countries.core.R.string.not_found_error
+
+        val snackBarMatcher = withId(snackBarTextId)
+        onView(snackBarMatcher).check(matches(withText(genericErrorStringRes)))
+    }
+
+    @Test
+    fun shouldShowGenericErrorOnNetworkUnavailable() {
+        coEvery { countryRemoteDataSource.getCountryDetailById(any()) } returns
+            NetworkUnavailable.error()
+
+        launchCountryDetailFragment("AAA")
 
         val snackBarTextId = com.google.android.material.R.id.snackbar_text
         val genericErrorStringRes = com.caruso.countries.core.R.string.generic_error
@@ -55,7 +63,8 @@ class CountryListFragmentTest {
         onView(snackBarMatcher).check(matches(withText(genericErrorStringRes)))
     }
 
-    private fun launchCountryListFragment() {
-        launchFragmentInHiltContainer<CountryListFragment>()
+    private fun launchCountryDetailFragment(countryId: String) {
+        val bundle = bundleOf("id" to countryId)
+        launchFragmentInHiltContainer<CountryDetailFragment>(fragmentArgs = bundle)
     }
 }
