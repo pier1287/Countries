@@ -1,4 +1,4 @@
-package com.caruso.countries.core_test
+package com.caruso.countries.core_test.inject.repository
 
 import com.caruso.countries.repository.CountryRepository
 import com.caruso.countries.repository.CountryRepositoryImpl
