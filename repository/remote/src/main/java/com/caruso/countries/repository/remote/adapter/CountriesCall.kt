@@ -1,4 +1,4 @@
-package com.caruso.countries.remote.adapter
+package com.caruso.countries.repository.remote.adapter
 
 import com.caruso.countries.domain.BadRequest
 import com.caruso.countries.domain.ErrorType
@@ -10,7 +10,7 @@ import com.caruso.countries.domain.ResultOf
 import com.caruso.countries.domain.Unauthorized
 import com.caruso.countries.domain.error
 import com.caruso.countries.domain.success
-import com.caruso.countries.remote.ErrorDto
+import com.caruso.countries.repository.remote.ErrorDto
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.Request

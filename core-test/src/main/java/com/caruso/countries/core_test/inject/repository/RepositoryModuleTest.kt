@@ -3,11 +3,11 @@ package com.caruso.countries.core_test.inject.repository
 import com.caruso.countries.domain.NotFound
 import com.caruso.countries.domain.error
 import com.caruso.countries.domain.success
-import com.caruso.countries.remote.CountryDto
-import com.caruso.countries.remote.CountryRemoteDataSource
-import com.caruso.countries.remote.FlagsDto
-import com.caruso.countries.remote.NameDto
-import com.caruso.countries.remote.inject.CountryRemoteModule
+import com.caruso.countries.repository.remote.CountryDto
+import com.caruso.countries.repository.remote.CountryRemoteDataSource
+import com.caruso.countries.repository.remote.FlagsDto
+import com.caruso.countries.repository.remote.NameDto
+import com.caruso.countries.repository.remote.inject.CountryRemoteModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent

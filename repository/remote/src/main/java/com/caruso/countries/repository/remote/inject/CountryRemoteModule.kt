@@ -1,9 +1,9 @@
-package com.caruso.countries.remote.inject
+package com.caruso.countries.repository.remote.inject
 
 import com.caruso.countries.domain.AppConfig
 import com.caruso.countries.domain.CacheDirProvider
-import com.caruso.countries.remote.CountryRemoteDataSource
-import com.caruso.countries.remote.adapter.CallAdapterFactory
+import com.caruso.countries.repository.remote.CountryRemoteDataSource
+import com.caruso.countries.repository.remote.adapter.CallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

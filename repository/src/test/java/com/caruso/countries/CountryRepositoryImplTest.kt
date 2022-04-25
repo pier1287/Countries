@@ -6,10 +6,10 @@ import com.caruso.countries.domain.NotFound
 import com.caruso.countries.domain.error
 import com.caruso.countries.domain.getOrNull
 import com.caruso.countries.domain.success
-import com.caruso.countries.remote.CountryDto
-import com.caruso.countries.remote.CountryRemoteDataSource
-import com.caruso.countries.remote.FlagsDto
-import com.caruso.countries.remote.NameDto
+import com.caruso.countries.repository.remote.CountryDto
+import com.caruso.countries.repository.remote.CountryRemoteDataSource
+import com.caruso.countries.repository.remote.FlagsDto
+import com.caruso.countries.repository.remote.NameDto
 import com.caruso.countries.repository.CountryRepositoryImpl
 import com.caruso.countries.repository.local.CountryDao
 import com.caruso.countries.repository.local.CountryDetailEntity
