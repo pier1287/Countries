@@ -1,4 +1,4 @@
-package com.caruso.countries.repository.remote
+package com.caruso.countries.remote
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

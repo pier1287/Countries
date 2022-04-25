@@ -28,7 +28,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 
     buildFeatures {
@@ -57,6 +57,7 @@ dependencies {
     implementation "io.coil-kt:coil-svg:$coil"
 
 
+    androidTestImplementation project(":repository:remote")
     testImplementation project(":core-test")
     androidTestImplementation project(":core-test")
 

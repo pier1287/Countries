@@ -4,7 +4,7 @@ import com.caruso.countries.domain.Country
 import com.caruso.countries.repository.local.CountryDetailEntity
 import com.caruso.countries.repository.local.CountryEntity
 import com.caruso.countries.repository.local.CountryWithDetail
-import com.caruso.countries.repository.remote.CountryDto
+import com.caruso.countries.remote.CountryDto
 
 internal fun List<CountryEntity>.toEntities(): List<Country> = map { it.toEntity() }
 internal fun CountryEntity.toEntity(): Country = Country(

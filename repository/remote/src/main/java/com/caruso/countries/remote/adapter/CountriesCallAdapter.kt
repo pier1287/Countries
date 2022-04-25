@@ -1,4 +1,4 @@
-package com.caruso.countries.repository.remote.adapter
+package com.caruso.countries.remote.adapter
 
 import com.caruso.countries.domain.ResultOf
 import retrofit2.Call

@@ -1,4 +1,4 @@
-package com.caruso.countries.repository
+package com.caruso.countries.domain
 
 import java.io.File
 

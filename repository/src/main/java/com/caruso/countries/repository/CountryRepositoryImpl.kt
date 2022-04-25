@@ -8,9 +8,9 @@ import com.caruso.countries.domain.flatMap
 import com.caruso.countries.domain.map
 import com.caruso.countries.domain.onSuccess
 import com.caruso.countries.domain.success
+import com.caruso.countries.remote.CountryRemoteDataSource
 import com.caruso.countries.repository.local.CountryDao
 import com.caruso.countries.repository.local.CountryWithDetail
-import com.caruso.countries.repository.remote.CountryRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow

@@ -1,4 +1,4 @@
-package com.caruso.countries.repository.remote
+package com.caruso.countries.remote
 
 import com.caruso.countries.domain.ResultOf
 import retrofit2.http.GET
