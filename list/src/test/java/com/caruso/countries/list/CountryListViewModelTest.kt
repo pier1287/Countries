@@ -62,7 +62,7 @@ class CountryListViewModelTest {
     }
 
     @Test
-    fun `should emit show loading as initial state`() = coroutineRule.runBlockingTest {
+    fun `should emit initial state with loading enabled`() = coroutineRule.runBlockingTest {
         val countryRepository: CountryRepository = mockk {
             every { observeCountries() } returns flow { }
         }
@@ -74,7 +74,7 @@ class CountryListViewModelTest {
     }
 
     @Test
-    fun `should emit error state if an error occurs`() = coroutineRule.runBlockingTest {
+    fun `should emit state with error on error result`() = coroutineRule.runBlockingTest {
         val countryRepository: CountryRepository = mockk {
             every { observeCountries() } returns flow {
                 emit(NetworkUnavailable.error())

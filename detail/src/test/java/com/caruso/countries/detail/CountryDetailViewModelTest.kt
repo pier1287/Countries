@@ -36,10 +36,11 @@ class CountryDetailViewModelTest {
     }
 
     @Test
-    fun `should emit success state with country detail`() = coroutineRule.runBlockingTest {
+    fun `should emit state with country detail`() = coroutineRule.runBlockingTest {
         val stateHandle = SavedStateHandle().apply { set("id", "ITA") }
         val sut = CountryDetailViewModel(countryRepository, stateHandle)
-        val expected = CountryDetailState(country = country)
+        val expected =
+            CountryDetailState(country = country, isLoading = false, errors = emptyList())
         sut.uiState.test {
             assertEquals(expected, awaitItem())
         }
@@ -49,14 +50,15 @@ class CountryDetailViewModelTest {
     fun `should emit NotFound error if country not found`() = coroutineRule.runBlockingTest {
         val stateHandle = SavedStateHandle().apply { set("id", "AAA") }
         val sut = CountryDetailViewModel(countryRepository, stateHandle)
-        val expected = CountryDetailState(errors = listOf(NotFound))
+        val expected =
+            CountryDetailState(errors = listOf(NotFound), country = null, isLoading = false)
         sut.uiState.test {
             assertEquals(expected, awaitItem())
         }
     }
 
     @Test
-    fun `should emit show loading as initial state`() = coroutineRule.runBlockingTest {
+    fun `should emit initial state with loading enabled`() = coroutineRule.runBlockingTest {
         val countryRepository: CountryRepository = mockk {
             every { observeCountryDetail(any()) } returns flow { }
         }
