@@ -18,7 +18,7 @@ import javax.inject.Singleton
 
 @Module
 @TestInstallIn(components = [SingletonComponent::class], replaces = [CountryRemoteModule::class])
-abstract class RemoteDataSourceModuleTest {
+abstract class CountryRemoteModule {
 
     companion object {
 
