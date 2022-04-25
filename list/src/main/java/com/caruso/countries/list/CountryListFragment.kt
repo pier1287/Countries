@@ -12,10 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.caruso.countries.core.extensions.castAdapterTo
+import com.caruso.countries.core.extensions.gone
+import com.caruso.countries.core.extensions.visible
 import com.caruso.countries.core.view.viewBinding
 import com.caruso.countries.core.widget.ErrorHandler
-import com.caruso.countries.core.widget.gone
-import com.caruso.countries.core.widget.visible
 import com.caruso.countries.domain.Country
 import com.caruso.countries.domain.ErrorType
 import com.caruso.countries.list.adapter.CountryListAdapter
@@ -52,28 +52,33 @@ class CountryListFragment : Fragment(R.layout.country_list_fragment) {
     }
 
     private suspend fun CountryListFragmentBinding.observeViewModelState() {
-        viewModel.state.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+        viewModel.uiState.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .collect { state ->
-                when (state) {
-                    is CountryListState.Error -> handleError(state.errorType)
-                    CountryListState.Loading -> handleLoader(true)
-                    is CountryListState.Success -> handleSuccess(state.countries)
-                }
+                handleCountries(state.countries)
+                handleError(state.errors)
+                handleLoader(state.isLoading)
             }
     }
 
-    private fun CountryListFragmentBinding.handleError(errorType: ErrorType) {
-        errorHandler.handleError(root, errorType)
-        handleLoader(false)
+    private fun CountryListFragmentBinding.handleError(errors: List<ErrorType>) {
+        errors.firstOrNull()?.let {
+            errorHandler.handleError(root, it)
+            viewModel.onErrorMessageShown(it)
+        }
     }
 
     private fun CountryListFragmentBinding.handleLoader(isLoading: Boolean) {
         TransitionManager.beginDelayedTransition(root)
-        if (isLoading) progressLoader.visible() else progressLoader.gone()
+        if (isLoading) {
+            countriesRecyclerView.gone()
+            progress.visible()
+        } else {
+            progress.gone()
+            countriesRecyclerView.visible()
+        }
     }
 
-    private fun CountryListFragmentBinding.handleSuccess(countries: List<Country>) {
+    private fun CountryListFragmentBinding.handleCountries(countries: List<Country>) {
         countriesRecyclerView.castAdapterTo<CountryListAdapter>().submitList(countries)
-        handleLoader(false)
     }
 }

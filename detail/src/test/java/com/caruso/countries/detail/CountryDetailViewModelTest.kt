@@ -39,8 +39,8 @@ class CountryDetailViewModelTest {
     fun `should emit success state with country detail`() = coroutineRule.runBlockingTest {
         val stateHandle = SavedStateHandle().apply { set("id", "ITA") }
         val sut = CountryDetailViewModel(countryRepository, stateHandle)
-        val expected = CountryDetailState.Success(country)
-        sut.state.test {
+        val expected = CountryDetailState(country = country)
+        sut.uiState.test {
             assertEquals(expected, awaitItem())
         }
     }
@@ -49,8 +49,8 @@ class CountryDetailViewModelTest {
     fun `should emit NotFound error if country not found`() = coroutineRule.runBlockingTest {
         val stateHandle = SavedStateHandle().apply { set("id", "AAA") }
         val sut = CountryDetailViewModel(countryRepository, stateHandle)
-        val expected = CountryDetailState.Error(NotFound)
-        sut.state.test {
+        val expected = CountryDetailState(errors = listOf(NotFound))
+        sut.uiState.test {
             assertEquals(expected, awaitItem())
         }
     }
@@ -62,8 +62,8 @@ class CountryDetailViewModelTest {
         }
         val stateHandle = SavedStateHandle().apply { set("id", "ITA") }
         val sut = CountryDetailViewModel(countryRepository, stateHandle)
-        val expected = CountryDetailState.Loading
-        sut.state.test {
+        val expected = CountryDetailState(isLoading = true)
+        sut.uiState.test {
             assertEquals(expected, awaitItem())
         }
     }

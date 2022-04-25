@@ -43,8 +43,8 @@ class CountryListViewModelTest {
     @Test
     fun `should emit a state with Countries`() = coroutineRule.runBlockingTest {
         val sut = CountryListViewModel(countryRepository)
-        val expected = CountryListState.Success(expectedCountries)
-        sut.state.test {
+        val expected = CountryListState(countries = expectedCountries)
+        sut.uiState.test {
             assertEquals(expected, awaitItem())
         }
     }
@@ -52,10 +52,10 @@ class CountryListViewModelTest {
     @Test
     fun `should update the state on next emitted value`() = coroutineRule.runBlockingTest {
         val sut = CountryListViewModel(countryRepository)
-        val expected = CountryListState.Success(
-            expectedCountries + Country(id = "ESP", name = "SPAIN", "flagImageUrl")
+        val expected = CountryListState(
+            countries = expectedCountries + Country(id = "ESP", name = "SPAIN", "flagImageUrl")
         )
-        sut.state.test {
+        sut.uiState.test {
             awaitItem()
             assertEquals(expected, awaitItem())
         }
@@ -67,8 +67,8 @@ class CountryListViewModelTest {
             every { observeCountries() } returns flow { }
         }
         val sut = CountryListViewModel(countryRepository)
-        val expected = CountryListState.Loading
-        sut.state.test {
+        val expected = CountryListState(isLoading = true)
+        sut.uiState.test {
             assertEquals(expected, awaitItem())
         }
     }
@@ -82,8 +82,8 @@ class CountryListViewModelTest {
         }
         val sut = CountryListViewModel(countryRepository)
 
-        val expected = CountryListState.Error(NetworkUnavailable)
-        sut.state.test {
+        val expected = CountryListState(errors = listOf(NetworkUnavailable))
+        sut.uiState.test {
             assertEquals(expected, awaitItem())
         }
     }
