@@ -13,7 +13,7 @@ interface CountryDao {
 
     @Transaction
     @Query("SELECT * FROM country WHERE id== :countryId")
-    suspend fun getCountryById(countryId: String): CountryWithDetail
+    suspend fun getCountryById(countryId: String): CountryWithDetail?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCountry(vararg countries: CountryEntity)

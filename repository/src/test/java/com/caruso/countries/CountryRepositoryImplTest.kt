@@ -6,6 +6,7 @@ import com.caruso.countries.repository.NetworkUnavailable
 import com.caruso.countries.repository.NotFound
 import com.caruso.countries.repository.error
 import com.caruso.countries.repository.getOrNull
+import com.caruso.countries.repository.local.CountryDao
 import com.caruso.countries.repository.remote.CountryDto
 import com.caruso.countries.repository.remote.FlagsDto
 import com.caruso.countries.repository.remote.NameDto
@@ -24,7 +25,10 @@ class CountryRepositoryImplTest {
     private val remote: CountryRemoteDataSource = mockk {
         coEvery { getAllCountries() } returns arrayOf<CountryDto>().success()
     }
-    private val sut = CountryRepositoryImpl(remote)
+
+    private val local: CountryDao = mockk(relaxed = true)
+
+    private val sut = CountryRepositoryImpl(remote, local)
 
     private val itaCountryDto = CountryDto(
         cca3 = "ITA",

@@ -26,8 +26,8 @@ class CountryRepositoryImpl @Inject constructor(
     }.distinctUntilChanged()
 
     override fun observeCountryDetail(countryId: String): Flow<ResultOf<Country>> = flow {
-        val localCountries = local.getCountryById(countryId).toEntity()
-        emit(localCountries.success())
+        val localCountryDetail = local.getCountryById(countryId)?.toEntity()
+        localCountryDetail?.let { emit(it.success()) }
 
         val country = remote.getCountryDetailById(countryId)
             .flatMap { it.firstOrNull()?.success() ?: NotFound.error() }
