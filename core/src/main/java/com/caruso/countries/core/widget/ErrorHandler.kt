@@ -3,8 +3,8 @@ package com.caruso.countries.core.widget
 import android.content.Context
 import android.view.View
 import com.caruso.countries.core.R
-import com.caruso.countries.repository.ErrorType
-import com.caruso.countries.repository.NotFound
+import com.caruso.countries.domain.ErrorType
+import com.caruso.countries.domain.NotFound
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.FragmentScoped

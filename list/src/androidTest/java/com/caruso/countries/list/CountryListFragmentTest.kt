@@ -8,8 +8,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.caruso.countries.core_test.launchFragmentInHiltContainer
 import com.caruso.countries.core_test.matcher.hasItemAtPosition
-import com.caruso.countries.repository.NetworkUnavailable
-import com.caruso.countries.repository.error
+import com.caruso.countries.domain.NetworkUnavailable
+import com.caruso.countries.domain.error
 import com.caruso.countries.repository.remote.CountryRemoteDataSource
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

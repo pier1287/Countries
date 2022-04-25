@@ -1,5 +1,6 @@
 package com.caruso.countries.repository
 
+import com.caruso.countries.domain.Country
 import com.caruso.countries.repository.local.CountryDetailEntity
 import com.caruso.countries.repository.local.CountryEntity
 import com.caruso.countries.repository.local.CountryWithDetail

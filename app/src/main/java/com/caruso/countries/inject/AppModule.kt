@@ -5,8 +5,8 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.util.CoilUtils
 import com.caruso.countries.BuildConfig
-import com.caruso.countries.repository.CacheDirProvider
-import com.caruso.countries.repository.RepositoryConfig
+import com.caruso.countries.domain.AppConfig
+import com.caruso.countries.domain.CacheDirProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +28,7 @@ object AppModule {
         }
 
     @Provides
-    fun provideRepositoryConfig(): RepositoryConfig = RepositoryConfig(BuildConfig.DEBUG)
+    fun provideAppConfig(): AppConfig = AppConfig(BuildConfig.DEBUG)
 
     @Provides
     @Singleton

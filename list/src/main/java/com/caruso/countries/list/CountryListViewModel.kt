@@ -2,11 +2,11 @@ package com.caruso.countries.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.caruso.countries.repository.Country
+import com.caruso.countries.domain.Country
+import com.caruso.countries.domain.ErrorType
+import com.caruso.countries.domain.ResultOf
+import com.caruso.countries.domain.fold
 import com.caruso.countries.repository.CountryRepository
-import com.caruso.countries.repository.ErrorType
-import com.caruso.countries.repository.ResultOf
-import com.caruso.countries.repository.fold
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

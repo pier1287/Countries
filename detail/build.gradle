@@ -29,7 +29,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 
     buildFeatures {
@@ -40,6 +40,7 @@ android {
 dependencies {
     implementation project(":core")
     implementation project(":repository")
+    implementation project(":domain")
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -60,6 +61,7 @@ dependencies {
 
     testImplementation project(":core-test")
     androidTestImplementation project(":core-test")
+    androidTestImplementation project(":repository:remote")
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

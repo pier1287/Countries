@@ -1,4 +1,4 @@
-package com.caruso.countries.repository
+package com.caruso.countries.domain
 
 sealed class ResultOf<out T> {
     data class Success<T>(val value: T) : ResultOf<T>()

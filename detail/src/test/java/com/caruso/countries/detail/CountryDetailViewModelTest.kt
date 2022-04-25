@@ -3,11 +3,11 @@ package com.caruso.countries.detail
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.caruso.countries.core_test.CoroutineRule
-import com.caruso.countries.repository.Country
+import com.caruso.countries.domain.Country
+import com.caruso.countries.domain.NotFound
+import com.caruso.countries.domain.error
+import com.caruso.countries.domain.success
 import com.caruso.countries.repository.CountryRepository
-import com.caruso.countries.repository.NotFound
-import com.caruso.countries.repository.error
-import com.caruso.countries.repository.success
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
