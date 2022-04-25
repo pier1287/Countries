@@ -12,7 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.stateIn
@@ -31,10 +30,9 @@ class CountryDetailViewModel @Inject constructor(
         countryRepository.observeCountryDetail(args.id).map(::mapToState)
     private val _uiState = MutableSharedFlow<CountryDetailState>()
     val uiState: StateFlow<CountryDetailState> = merge(countryDetailFlow, _uiState)
-        .distinctUntilChanged()
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
+            started = SharingStarted.WhileSubscribed(5000),
             initialValue = CountryDetailState(isLoading = true)
         )
 

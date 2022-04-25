@@ -27,7 +27,7 @@ class CountryListViewModel @Inject constructor(
     val uiState: StateFlow<CountryListState> = merge(countriesFlow, _uiState)
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
+            started = SharingStarted.WhileSubscribed(5000),
             initialValue = CountryListState(isLoading = true)
         )
 
