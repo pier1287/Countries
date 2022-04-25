@@ -51,19 +51,19 @@ class CountryListFragment : Fragment(R.layout.country_list_fragment) {
     }
 
     private suspend fun CountryListFragmentBinding.observeViewModelState() {
-        viewModel.state.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+        viewModel.uiState.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .collect { state ->
-                when (state) {
-                    is CountryListState.Error -> handleError(state.errorType)
-                    CountryListState.Loading -> handleLoader(true)
-                    is CountryListState.Success -> handleSuccess(state.countries)
-                }
+                handleCountries(state.countries)
+                handleError(state.errors)
+                handleLoader(state.isLoading)
             }
     }
 
-    private fun CountryListFragmentBinding.handleError(errorType: ErrorType) {
-        errorHandler.handleError(root, errorType)
-        handleLoader(false)
+    private fun CountryListFragmentBinding.handleError(errors: List<ErrorType>) {
+        errors.firstOrNull()?.let {
+            errorHandler.handleError(root, it)
+            viewModel.onErrorMessageShown(it)
+        }
     }
 
     private fun CountryListFragmentBinding.handleLoader(isLoading: Boolean) {
@@ -71,8 +71,7 @@ class CountryListFragment : Fragment(R.layout.country_list_fragment) {
         if (isLoading) progressLoader.visible() else progressLoader.gone()
     }
 
-    private fun CountryListFragmentBinding.handleSuccess(countries: List<Country>) {
+    private fun CountryListFragmentBinding.handleCountries(countries: List<Country>) {
         countriesRecyclerView.castAdapterTo<CountryListAdapter>().submitList(countries)
-        handleLoader(false)
     }
 }
