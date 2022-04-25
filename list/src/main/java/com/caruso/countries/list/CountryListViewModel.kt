@@ -22,9 +22,9 @@ class CountryListViewModel @Inject constructor(
     countryRepository: CountryRepository
 ) : ViewModel() {
 
-    private val repositoryFlow = countryRepository.observeCountries().map(::mapToState)
+    private val countriesFlow = countryRepository.observeCountries().map(::mapToState)
     private val _uiState = MutableSharedFlow<CountryListState>()
-    val uiState: StateFlow<CountryListState> = merge(repositoryFlow, _uiState)
+    val uiState: StateFlow<CountryListState> = merge(countriesFlow, _uiState)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),

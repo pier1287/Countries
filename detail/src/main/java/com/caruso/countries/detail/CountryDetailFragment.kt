@@ -16,6 +16,7 @@ import com.caruso.countries.core.widget.gone
 import com.caruso.countries.core.widget.visible
 import com.caruso.countries.detail.databinding.CountryDetailFragmentBinding
 import com.caruso.countries.domain.Country
+import com.caruso.countries.domain.ErrorType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,17 +39,22 @@ class CountryDetailFragment : Fragment(R.layout.country_detail_fragment) {
     }
 
     private suspend fun CountryDetailFragmentBinding.observeViewModelState() {
-        viewModel.state.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+        viewModel.uiState.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .collect { state ->
-                when (state) {
-                    CountryDetailState.Loading -> handleLoader(true)
-                    is CountryDetailState.Error -> errorHandler.handleError(root, state.type)
-                    is CountryDetailState.Success -> showContent(state.country)
-                }
+                state.country?.let { handleCountryDetail(it) }
+                handleError(state.errors)
+                handleLoader(state.isLoading)
             }
     }
 
-    private fun CountryDetailFragmentBinding.showContent(country: Country) {
+    private fun CountryDetailFragmentBinding.handleError(errors: List<ErrorType>) {
+        errors.firstOrNull()?.let {
+            errorHandler.handleError(root, it)
+            viewModel.onErrorMessageShown(it)
+        }
+    }
+
+    private fun CountryDetailFragmentBinding.handleCountryDetail(country: Country) {
         val appCompatActivity = requireActivity() as? AppCompatActivity
         appCompatActivity?.supportActionBar?.title = country.name
 
@@ -56,7 +62,6 @@ class CountryDetailFragment : Fragment(R.layout.country_detail_fragment) {
 
         continentTextView.text = country.continent
         capitalTextView.text = country.capital
-        handleLoader(false)
     }
 
     private fun CountryDetailFragmentBinding.handleLoader(isLoading: Boolean) {
