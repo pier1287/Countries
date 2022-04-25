@@ -12,10 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.caruso.countries.core.extensions.castAdapterTo
+import com.caruso.countries.core.extensions.gone
+import com.caruso.countries.core.extensions.visible
 import com.caruso.countries.core.view.viewBinding
 import com.caruso.countries.core.widget.ErrorHandler
-import com.caruso.countries.core.widget.gone
-import com.caruso.countries.core.widget.visible
 import com.caruso.countries.domain.Country
 import com.caruso.countries.domain.ErrorType
 import com.caruso.countries.list.adapter.CountryListAdapter
@@ -68,7 +68,13 @@ class CountryListFragment : Fragment(R.layout.country_list_fragment) {
 
     private fun CountryListFragmentBinding.handleLoader(isLoading: Boolean) {
         TransitionManager.beginDelayedTransition(root)
-        if (isLoading) progressLoader.visible() else progressLoader.gone()
+        if (isLoading) {
+            countriesRecyclerView.gone()
+            progress.visible()
+        } else {
+            progress.gone()
+            countriesRecyclerView.visible()
+        }
     }
 
     private fun CountryListFragmentBinding.handleCountries(countries: List<Country>) {

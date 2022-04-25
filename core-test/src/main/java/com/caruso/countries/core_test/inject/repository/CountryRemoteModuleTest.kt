@@ -18,33 +18,30 @@ import javax.inject.Singleton
 
 @Module
 @TestInstallIn(components = [SingletonComponent::class], replaces = [CountryRemoteModule::class])
-abstract class CountryRemoteModuleTest {
+object CountryRemoteModuleTest {
 
-    companion object {
+    private val itaDto = CountryDto(
+        "ITA",
+        NameDto("ITALY"),
+        flags = FlagsDto("ita.png", "svg.png")
+    )
 
-        private val itaDto = CountryDto(
-            "ITA",
-            NameDto("ITALY"),
-            flags = FlagsDto("ita.png", "svg.png")
-        )
+    private val fraDto = CountryDto(
+        "FRA",
+        NameDto("FRANCE"),
+        flags = FlagsDto("fra.png", "fra.svg")
+    )
 
-        private val fraDto = CountryDto(
-            "FRA",
-            NameDto("FRANCE"),
-            flags = FlagsDto("fra.png", "fra.svg")
-        )
+    private val itaDetailDto = itaDto.copy(
+        continents = listOf("EUROPE"),
+        capitals = listOf("ROME")
+    )
 
-        private val itaDetailDto = itaDto.copy(
-            continents = listOf("EUROPE"),
-            capitals = listOf("ROME")
-        )
-
-        @Provides
-        @Singleton
-        fun provideRemoteDataSource(): CountryRemoteDataSource = mockk {
-            coEvery { getAllCountries() } returns arrayOf(itaDto, fraDto).success()
-            coEvery { getCountryDetailById(any()) } returns NotFound.error()
-            coEvery { getCountryDetailById("ITA") } returns arrayOf(itaDetailDto).success()
-        }
+    @Provides
+    @Singleton
+    fun provideRemoteDataSource(): CountryRemoteDataSource = mockk {
+        coEvery { getAllCountries() } returns arrayOf(itaDto, fraDto).success()
+        coEvery { getCountryDetailById(any()) } returns NotFound.error()
+        coEvery { getCountryDetailById("ITA") } returns arrayOf(itaDetailDto).success()
     }
 }
