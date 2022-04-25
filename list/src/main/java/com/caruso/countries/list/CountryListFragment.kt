@@ -43,6 +43,7 @@ class CountryListFragment : Fragment(R.layout.country_list_fragment) {
 
     private fun CountryListFragmentBinding.initCountriesRecyclerView() {
         countriesRecyclerView.adapter = CountryListAdapter { country ->
+            // This navigation could be improved
             val request = NavDeepLinkRequest.Builder
                 .fromUri("com.caruso.countries://countries/${country.id}".toUri())
                 .build()
