@@ -15,7 +15,7 @@ import com.caruso.countries.core.widget.ErrorHandler
 import com.caruso.countries.core.widget.gone
 import com.caruso.countries.core.widget.visible
 import com.caruso.countries.detail.databinding.CountryDetailFragmentBinding
-import com.caruso.countries.repository.Country
+import com.caruso.countries.domain.Country
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

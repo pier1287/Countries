@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation project(":repository")
+    implementation project(":domain")
 
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
     implementation 'junit:junit:4.13.2'

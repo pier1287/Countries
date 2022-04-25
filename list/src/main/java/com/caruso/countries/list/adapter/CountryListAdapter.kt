@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.caruso.countries.domain.Country
 import com.caruso.countries.list.databinding.CountryListItemBinding
-import com.caruso.countries.repository.Country
 
 class CountryListAdapter(private val onItemClick: (Country) -> Unit) :
     ListAdapter<Country, CountryListAdapter.ViewHolder>(CountriesDiffUtil()) {

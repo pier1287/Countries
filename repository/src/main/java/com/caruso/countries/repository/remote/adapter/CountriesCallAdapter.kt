@@ -1,6 +1,6 @@
 package com.caruso.countries.repository.remote.adapter
 
-import com.caruso.countries.repository.ResultOf
+import com.caruso.countries.domain.ResultOf
 import retrofit2.Call
 import retrofit2.CallAdapter
 
