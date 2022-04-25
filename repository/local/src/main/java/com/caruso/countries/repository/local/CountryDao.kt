@@ -14,5 +14,5 @@ interface CountryDao {
     suspend fun getCountryById(countryId: String): CountryEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCountry(vararg users: CountryEntity)
+    suspend fun insertCountry(vararg countries: CountryEntity)
 }
