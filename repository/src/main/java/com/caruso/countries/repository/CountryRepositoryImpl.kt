@@ -1,8 +1,10 @@
 package com.caruso.countries.repository
 
 import com.caruso.countries.repository.local.CountryDao
+import com.caruso.countries.repository.local.CountryWithDetail
 import com.caruso.countries.repository.remote.CountryRemoteDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -20,9 +22,8 @@ class CountryRepositoryImpl @Inject constructor(
                 val locals = it.toLocalEntities()
                 local.insertCountry(*locals.toTypedArray())
             }.map { it.toEntities().sortedBy(Country::name) }
-
         emit(remoteCountries)
-    }
+    }.distinctUntilChanged()
 
     override fun observeCountryDetail(countryId: String): Flow<ResultOf<Country>> = flow {
         val localCountries = local.getCountryById(countryId).toEntity()
@@ -30,8 +31,11 @@ class CountryRepositoryImpl @Inject constructor(
 
         val country = remote.getCountryDetailById(countryId)
             .flatMap { it.firstOrNull()?.success() ?: NotFound.error() }
-            .onSuccess { local.insertCountry(it.toLocalEntity()) }
-            .map { it.toEntity() }
+            .onSuccess {
+                val countryWithDetail =
+                    CountryWithDetail(it.toLocalEntity(), it.toDetailLocalEntity())
+                local.insertCountryWithDetail(countryWithDetail)
+            }.map { it.toEntity() }
         emit(country)
-    }
+    }.distinctUntilChanged()
 }

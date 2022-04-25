@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.caruso.countries.repository.local.CountryDao
+import com.caruso.countries.repository.local.CountryDetailEntity
 import com.caruso.countries.repository.local.CountryEntity
 import dagger.Module
 import dagger.Provides
@@ -30,7 +31,7 @@ object CountryLocalModule {
     fun provideCountryDao(database: CountryDatabase): CountryDao = database.countryDao()
 }
 
-@Database(entities = [CountryEntity::class], version = 1)
+@Database(entities = [CountryEntity::class, CountryDetailEntity::class], version = 1)
 abstract class CountryDatabase : RoomDatabase() {
     abstract fun countryDao(): CountryDao
 }
