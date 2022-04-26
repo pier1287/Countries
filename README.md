@@ -19,7 +19,7 @@ Facade module for data retrieval. It exposes data to the rest of the app.
 
 It depends to two internal *Data Source* modules:
 
-- **Remote:** retrive data from network using Rest Apis (*Retrofit*)
+- **Remote:** retrieve data from network using Rest Apis (*Retrofit*)
 
 - **Local:** retrieve data from local database (*Room*)
 
