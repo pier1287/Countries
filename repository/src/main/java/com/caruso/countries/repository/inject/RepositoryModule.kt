@@ -10,9 +10,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
+internal abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    internal abstract fun bindCountryRepository(impl: CountryRepositoryImpl): CountryRepository
+    abstract fun bindCountryRepository(impl: CountryRepositoryImpl): CountryRepository
 }

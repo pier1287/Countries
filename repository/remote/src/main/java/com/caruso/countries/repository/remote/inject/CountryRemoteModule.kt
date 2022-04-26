@@ -22,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object CountryRemoteModule {
+internal object CountryRemoteModule {
     // 10 MB
     private const val HTTP_RESPONSE_DISK_CACHE_MAX_SIZE = 10L * 1024L * 1024L
     private val TIMEOUT = TimeUnit.SECONDS.toSeconds(30)
