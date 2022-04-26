@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object CountryLocalModule {
+object CountryLocalModule {
 
     @Provides
     @Singleton
@@ -32,6 +32,6 @@ internal object CountryLocalModule {
 }
 
 @Database(entities = [CountryEntity::class, CountryDetailEntity::class], version = 1)
-internal abstract class CountryDatabase : RoomDatabase() {
+abstract class CountryDatabase : RoomDatabase() {
     abstract fun countryDao(): CountryDao
 }
