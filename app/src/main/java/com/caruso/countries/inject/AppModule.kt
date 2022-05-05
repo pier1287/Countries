@@ -3,7 +3,8 @@ package com.caruso.countries.inject
 import android.content.Context
 import coil.ImageLoader
 import coil.decode.SvgDecoder
-import coil.util.CoilUtils
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import com.caruso.countries.BuildConfig
 import com.caruso.countries.domain.AppConfig
 import com.caruso.countries.domain.CacheDirProvider
@@ -12,7 +13,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
 import java.io.File
 import javax.inject.Singleton
 
@@ -35,11 +35,19 @@ object AppModule {
     fun provideImageLoader(@ApplicationContext context: Context): ImageLoader =
         ImageLoader.Builder(context)
             .crossfade(true)
-            .okHttpClient {
-                OkHttpClient.Builder()
-                    .cache(CoilUtils.createDefaultCache(context))
+            .memoryCache {
+                MemoryCache.Builder(context)
+                    .maxSizePercent(0.25)
                     .build()
             }
-            .componentRegistry { add(SvgDecoder(context)) }
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(context.cacheDir.resolve("image_cache"))
+                    .maxSizePercent(0.02)
+                    .build()
+            }
+            .components {
+                add(SvgDecoder.Factory())
+            }
             .build()
 }

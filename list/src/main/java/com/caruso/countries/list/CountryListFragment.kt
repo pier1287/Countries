@@ -1,84 +1,131 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package com.caruso.countries.list
 
 import android.os.Bundle
-import android.transition.TransitionManager
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
-import com.caruso.countries.core.extensions.castAdapterTo
-import com.caruso.countries.core.extensions.gone
-import com.caruso.countries.core.extensions.visible
-import com.caruso.countries.core.view.viewBinding
+import coil.compose.AsyncImage
 import com.caruso.countries.core.widget.ErrorHandler
 import com.caruso.countries.domain.Country
-import com.caruso.countries.domain.ErrorType
-import com.caruso.countries.list.adapter.CountryListAdapter
-import com.caruso.countries.list.databinding.CountryListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CountryListFragment : Fragment(R.layout.country_list_fragment) {
+class CountryListFragment : Fragment() {
 
     private val viewModel: CountryListViewModel by viewModels()
-    private val binding: CountryListFragmentBinding by viewBinding(CountryListFragmentBinding::bind)
 
     @Inject
     lateinit var errorHandler: ErrorHandler
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            initCountriesRecyclerView()
-            lifecycleScope.launch { observeViewModelState() }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = ComposeView(requireContext()).apply {
+        setContent {
+            MaterialTheme {
+                CountryListPage(viewModel = viewModel)
+            }
         }
     }
 
-    private fun CountryListFragmentBinding.initCountriesRecyclerView() {
-        countriesRecyclerView.adapter = CountryListAdapter { country ->
-            // This navigation could be improved
+    @Composable
+    private fun CountryListPage(viewModel: CountryListViewModel) {
+        val state by viewModel.uiState.collectAsState()
+        CountryList(countries = state.countries, onClick = {
             val request = NavDeepLinkRequest.Builder
-                .fromUri("com.caruso.countries://countries/${country.id}".toUri())
+                .fromUri("com.caruso.countries://countries/${it.id}".toUri())
                 .build()
             findNavController().navigate(request)
+        })
+    }
+}
+
+@Composable
+private fun CountryList(countries: List<Country>, onClick: (Country) -> Unit = {}) {
+    LazyColumn(
+        contentPadding = PaddingValues(vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(countries) {
+            CountryItemCard(country = it, onClick = onClick)
         }
     }
+}
 
-    private suspend fun CountryListFragmentBinding.observeViewModelState() {
-        viewModel.uiState.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-            .collect { state ->
-                handleCountries(state.countries)
-                handleError(state.errors)
-                handleLoader(state.isLoading)
-            }
+@Composable
+fun CountryItem(country: Country) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = country.name, modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(16.dp))
+        AsyncImage(
+            model = country.flagImageUrl,
+            contentDescription = "Country flag",
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+                .border(1.5.dp, MaterialTheme.colors.secondaryVariant, CircleShape)
+        )
     }
+}
 
-    private fun CountryListFragmentBinding.handleError(errors: List<ErrorType>) {
-        errors.firstOrNull()?.let {
-            errorHandler.handleError(root, it)
-            viewModel.onErrorMessageShown(it)
-        }
+@Composable
+fun CountryItemCard(country: Country, onClick: (Country) -> Unit = {}) {
+    Card(onClick = { onClick(country) }, elevation = 8.dp) {
+        CountryItem(country = country)
     }
+}
 
-    private fun CountryListFragmentBinding.handleLoader(isLoading: Boolean) {
-        TransitionManager.beginDelayedTransition(root)
-        if (isLoading) {
-            countriesRecyclerView.gone()
-            progress.visible()
-        } else {
-            progress.gone()
-            countriesRecyclerView.visible()
-        }
-    }
+@Preview
+@Composable
+private fun CountryItemCardPreview() {
+    CountryItemCard(country = Country("", "Italy", ""))
+}
 
-    private fun CountryListFragmentBinding.handleCountries(countries: List<Country>) {
-        countriesRecyclerView.castAdapterTo<CountryListAdapter>().submitList(countries)
+@Preview
+@Composable
+private fun CountryListPreview() {
+    val country = Country("", "Italy", "")
+    MaterialTheme {
+        CountryList((1..5).map { country })
     }
 }
