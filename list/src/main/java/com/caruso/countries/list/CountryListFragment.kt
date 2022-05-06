@@ -80,7 +80,7 @@ private fun CountryList(countries: List<Country>, onClick: (Country) -> Unit = {
         contentPadding = PaddingValues(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(countries) {
+        items(items = countries, key = { it.id }) {
             CountryItemCard(country = it, onClick = onClick)
         }
     }
