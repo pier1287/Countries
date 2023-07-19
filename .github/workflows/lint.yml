@@ -3,7 +3,7 @@ name: Lint
 on: [ push, pull_request ]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -11,9 +11,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Lint
+      - name: Run lint
         run: ./gradlew :app:lintDebug
-      - run: npm ci
+#      - run: npm ci
       - run: npm install glob
       - uses: actions/github-script@v6
         with:
