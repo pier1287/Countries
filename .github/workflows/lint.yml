@@ -20,5 +20,5 @@ jobs:
         with:
           script: |
             const globo = require('glob')
-            const script = require('./lint_report.js')
+            const script = require('.github/workflows/lint_report.js')
             await script({github, context, globo})
