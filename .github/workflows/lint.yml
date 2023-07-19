@@ -19,6 +19,6 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const glob = require('glob')
+            const globo = require('glob')
             const script = require('./lint_report.js')
-            await script({github, context, glob})
+            await script({github, context, globo})
