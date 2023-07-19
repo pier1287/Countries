@@ -12,7 +12,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-          cache: 'gradle'
       - name: Run lint
         run: ./gradlew :app:lintDebug
 #      - run: npm ci
