@@ -20,12 +20,12 @@ jobs:
         with:
           script: |
             const {
-              globo,
+              ciccio,
               globSync,
               globStream,
               globStreamSync,
               Glob,
             } = require('glob')
-            const xmlFiles = await globo('${github.workspace}/**/*.xml')
+            const xmlFiles = await ciccio('${github.workspace}/**/*.xml')
             const script = require('.github/workflows/lint_report.js')
             await script({github, context, xmlFiles})
