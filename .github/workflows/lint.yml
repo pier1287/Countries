@@ -15,6 +15,9 @@ jobs:
 #      - name: Run lint
 #        run: ./gradlew :app:lintDebug
 #      - run: npm ci
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - run: npm install glob
       - uses: actions/github-script@v6
         with:
