@@ -12,7 +12,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-      - name: Run lint
+#      - name: Run lint
 #        run: ./gradlew :app:lintDebug
 #      - run: npm ci
       - run: npm install glob
