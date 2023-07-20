@@ -15,20 +15,8 @@ jobs:
 #      - name: Run lint
 #        run: ./gradlew :app:lintDebug
 #      - run: npm ci
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: npm install glob
       - uses: actions/github-script@v6
         with:
           script: |
-            const {
-              ciccio,
-              globSync,
-              globStream,
-              globStreamSync,
-              Glob,
-            } = require('glob');
-            const xmlFiles = await ciccio('${github.workspace}/**/*.xml')
             const script = require('.github/workflows/lint_report.js')
-            await script({github, context, xmlFiles})
+            await script({github, context})
