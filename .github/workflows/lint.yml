@@ -1,6 +1,6 @@
 name: Lint
 
-on: [ push, pull_request ]
+on: pull_request
 
 jobs:
   lint:
@@ -12,11 +12,14 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-#      - name: Run lint
-#        run: ./gradlew :app:lintDebug
-#      - run: npm ci
+      #      - name: Run lint
+      #        run: ./gradlew :app:lintDebug
+      #      - run: npm ci
       - uses: actions/github-script@v6
         with:
           script: |
+            const glob = require('@actions/glob');
+            const globber = await glob.create('**/.xml')
+            const files = await globber.glob()
             const script = require('.github/workflows/lint_report.js')
-            await script({github, context})
+            await script({github, context, files})
