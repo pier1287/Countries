@@ -34,6 +34,15 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    lint {
+        // Allows us to execute lint only in the app module instead of running it in all the modules.
+        checkDependencies true
+        // Excludes the lint checks from the test sources since we don't care about them.
+        ignoreTestSources true
+
+        sarifReport true
+    }
 }
 
 dependencies {

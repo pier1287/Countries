@@ -1,25 +1,27 @@
 name: Lint
 
-on: [ push, pull_request ]
+on: pull_request
 
 jobs:
-  build:
-
+  lint:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
-          java-version: 11
-      - name: Lint
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Run lint
         run: ./gradlew :app:lintDebug
-      - run: npm ci
-      - run: npm install glob
       - uses: actions/github-script@v6
         with:
           script: |
-            const glob = require('glob')
-            const script = require('./lint_report.js')
+            const script = require('.github/workflows/lint_report.js')
             await script({github, context, glob})
+
+      - uses: github/codeql-action/upload-sarif@v2
+        if: success() || failure()
+        with:
+          sarif_file: app/build/reports/lint-results-debug.sarif
+          category: lint

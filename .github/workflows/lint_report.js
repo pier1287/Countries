@@ -1,10 +1,11 @@
 module.exports = async ({github, context, glob}) => {
-    const xmlFiles = await glob('${github.workspace}/**/*.xml')
+    const globber = await glob.create('**/reports/*.xml')
+    const files = await globber.glob()
 
     await github.rest.issues.createComment({
         issue_number: context.issue.number,
         owner: context.repo.owner,
         repo: context.repo.repo,
-        body: '⚠️ ${xmlFiles.length} xml filed found'
+        body: '⚠️ Hi i found these xml files in the reports folder: \n files.join' + files.join('\n')
     })
 }
