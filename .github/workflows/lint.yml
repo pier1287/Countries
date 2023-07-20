@@ -12,9 +12,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-      #      - name: Run lint
-      #        run: ./gradlew :app:lintDebug
-      #      - run: npm ci
+      - name: Run lint
+        run: ./gradlew :app:lintDebug
       - uses: actions/github-script@v6
         with:
           script: |
