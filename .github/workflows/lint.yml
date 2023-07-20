@@ -19,3 +19,9 @@ jobs:
           script: |
             const script = require('.github/workflows/lint_report.js')
             await script({github, context, glob})
+
+      - uses: github/codeql-action/upload-sarif@v2
+        if: success() || failure()
+        with:
+          sarif_file: app/build/reports/lint-results-debug.sarif
+          category: lint
