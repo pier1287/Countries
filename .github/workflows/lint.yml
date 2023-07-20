@@ -18,8 +18,8 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const glob = require('@actions/glob');
-            const globber = await glob.create('**/.xml')
+            const globo = require('@actions/glob');
+            const globber = await globo.create('**/.xml')
             const files = await globber.glob()
             const script = require('.github/workflows/lint_report.js')
             await script({github, context, files})
